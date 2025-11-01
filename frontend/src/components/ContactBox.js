@@ -2,9 +2,9 @@ import React from 'react';
 
 const ContactBox = () => {
   const pujaris = [
-    { name: 'Pandit Ramesh Sharma', phone: '+91 98765 43210' },
-    { name: 'Pandit Suresh Joshi', phone: '+91 98765 12340' },
-    { name: 'Pandit Mahesh Trivedi', phone: '+91 98765 56780' }
+    { name: 'Narayan Bhat Pujari', phone: '+91 98765 43210' },
+    { name: 'Sryaprakash Bhat Pujari', phone: '+91 98765 12340' },
+    { name: 'Sachin Bhat Pujari', phone: '+91 98765 56780' }
   ];
 
   return (

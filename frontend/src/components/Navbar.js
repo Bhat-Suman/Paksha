@@ -15,9 +15,12 @@ function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-8">
-            <Link to="/" className="hover:text-yellow-100 transition-colors">Home</Link>
-            <Link to="/pooja" className="hover:text-yellow-100 transition-colors">Pooja</Link>
-            <Link to="/lodge" className="hover:text-yellow-100 transition-colors">Lodge</Link>
+            <Link to="/" className="block px-3 py-2 hover:bg-yellow-600 rounded">Home</Link>
+            <Link to="/pooja" className="block px-3 py-2 hover:bg-yellow-600 rounded">Pooja</Link>
+            <Link to="/lodge" className="block px-3 py-2 hover:bg-yellow-600 rounded">Lodge</Link>
+            <Link to="/ghoshala" className="block px-3 py-2 hover:bg-yellow-600 rounded">Ghoshala</Link>
+            <Link to="/about" className="block px-3 py-2 hover:bg-yellow-600 rounded">About Us</Link>
+            <Link to="/admin" className="block px-3 py-2 hover:bg-yellow-600 rounded">Admin</Link>
           </div>
 
           {/* Mobile menu button */}
