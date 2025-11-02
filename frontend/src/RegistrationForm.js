@@ -32,22 +32,44 @@ function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic client-side validation
+    if (!formData.poojaType || !formData.name || !formData.gotra || !formData.date || !formData.place || !formData.phone) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Format date to ISO string for consistent parsing on the server
+    const formDataToSend = {
+      ...formData,
+      date: new Date(formData.date).toISOString()
+    };
+
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
-      alert('Registration successful!');
-      // Reset form
-      setFormData({
-        poojaType: '',
-        name: '',
-        gotra: '',
-        date: '',
-        place: '',
-        phone: '',
-        remarks: ''
-      });
+      console.log('Sending registration data:', formDataToSend);
+      const response = await axios.post('http://localhost:5000/api/register', formDataToSend);
+      
+      if (response.data && response.data.success) {
+        alert('✅ Registration successful!');
+        // Reset form
+        setFormData({
+          poojaType: '',
+          name: '',
+          gotra: '',
+          date: '',
+          place: '',
+          phone: '',
+          remarks: ''
+        });
+      } else {
+        throw new Error(response.data?.message || 'Registration failed');
+      }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Registration failed. Please try again.');
+      console.error('Registration error:', error);
+      const errorMessage = error.response?.data?.message || 
+                         error.message || 
+                         'Registration failed. Please check your connection and try again.';
+      alert(`❌ ${errorMessage}`);
     }
   };
 
