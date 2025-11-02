@@ -8,8 +8,8 @@ function Home() {
       <div className="max-w-4xl w-full mx-auto py-12 px-4">
         {/* Welcome Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-4 drop-shadow-lg">
-            Welcome to Pooja Services
+          <h1 className="text-5xl md:text-6xl font-bold text-black mb-4 drop-shadow-lg">
+            Bhavani Nivas
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 drop-shadow">
             Choose a service to get started

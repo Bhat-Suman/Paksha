@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Ghoshala = () => {
-  // Sample gallery images
+  // Gallery images with solid color placeholders
   const galleryImages = Array(10).fill(null).map((_, index) => ({
     id: index + 1,
-    src: `https://via.placeholder.com/250?text=Cow+${index + 1}`,
-    alt: `Cow ${index + 1} at our Ghoshala`
+    alt: `Cow ${index + 1} at our Ghoshala`,
+    number: index + 1
   }));
 
   return (
@@ -26,20 +26,17 @@ const Ghoshala = () => {
         </section>
 
         {/* Gallery Section */}
-        <section>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        <section className="py-12">
+          <h2 className="text-3xl font-bold text-center text-green-700 mb-8">Our Cows</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {galleryImages.map((image) => (
-              <div 
-                key={image.id}
-                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1"
-              >
-                <img 
-                  src={image.src} 
-                  alt={image.alt}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-3">
-                  <p className="text-sm text-gray-600 text-center font-medium">{image.alt}</p>
+              <div key={image.id} className="rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-amber-100">
+                <div className="w-full h-48 flex items-center justify-center bg-amber-200">
+                  <span className="text-4xl text-amber-700">🐄</span>
+                  <span className="text-2xl text-amber-800 ml-2">{image.number}</span>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="text-lg font-semibold text-gray-800">{image.alt}</h3>
                 </div>
               </div>
             ))}

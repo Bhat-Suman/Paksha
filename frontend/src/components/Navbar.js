@@ -10,17 +10,17 @@ function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Brand */}
           <div className="flex items-center">
-            <span className="text-lg font-bold tracking-wide">Home Services</span>
+            <span className="text-lg font-bold tracking-wide text-black">Karya</span>
           </div>
 
           {/* Desktop Links */}
-          <div className="hidden md:flex space-x-8">
-            <Link to="/" className="block px-3 py-2 hover:bg-yellow-600 rounded">Home</Link>
-            <Link to="/pooja" className="block px-3 py-2 hover:bg-yellow-600 rounded">Pooja</Link>
-            <Link to="/lodge" className="block px-3 py-2 hover:bg-yellow-600 rounded">Lodge</Link>
-            <Link to="/ghoshala" className="block px-3 py-2 hover:bg-yellow-600 rounded">Ghoshala</Link>
-            <Link to="/about" className="block px-3 py-2 hover:bg-yellow-600 rounded">About Us</Link>
-            <Link to="/admin" className="block px-3 py-2 hover:bg-yellow-600 rounded">Admin</Link>
+          <div className="hidden md:flex space-x-8 text-black">
+            <Link to="/" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">Home</Link>
+            <Link to="/pooja" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">Pooja</Link>
+            <Link to="/lodge" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">Lodge</Link>
+            <Link to="/ghoshala" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">Ghoshala</Link>
+            <Link to="/about" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">About Us</Link>
+            <Link to="/admin" className="block px-3 py-2 hover:bg-yellow-600 rounded text-black hover:text-white">Admin</Link>
           </div>
 
           {/* Mobile menu button */}
@@ -46,9 +46,12 @@ function Navbar() {
       {/* Mobile Links */}
       {isOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2">
-          <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 hover:text-yellow-100">Home</Link>
-          <Link to="/pooja" onClick={() => setIsOpen(false)} className="block py-2 hover:text-yellow-100">Pooja</Link>
-          <Link to="/lodge" onClick={() => setIsOpen(false)} className="block py-2 hover:text-yellow-100">Lodge</Link>
+          <Link to="/" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">Home</Link>
+          <Link to="/pooja" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">Pooja</Link>
+          <Link to="/lodge" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">Lodge</Link>
+          <Link to="/ghoshala" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">Ghoshala</Link>
+          <Link to="/about" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">About Us</Link>
+          <Link to="/admin" onClick={() => setIsOpen(false)} className="block py-2 text-black hover:text-yellow-600">Admin</Link>
         </div>
       )}
     </nav>
