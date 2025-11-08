@@ -24,7 +24,7 @@ function LodgeBooking() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validate check-out date is after check-in date
@@ -38,17 +38,48 @@ function LodgeBooking() {
       }
     }
     
-    alert('Lodge booked successfully!');
-    
-    // Clear form fields
-    setFormData({
-      name: '',
-      phone: '',
-      checkInDate: '',
-      checkOutDate: '',
-      numberOfGuests: '',
-      roomType: ''
-    });
+    try {
+      const response = await fetch('http://localhost:5000/api/lodge/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email || '',
+          checkInDate: formData.checkInDate,
+          checkOutDate: formData.checkOutDate,
+          numberOfGuests: Number(formData.numberOfGuests),
+          roomType: formData.roomType,
+          specialRequests: formData.specialRequests || ''
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Something went wrong');
+      }
+      
+      alert('Lodge booked successfully!');
+      
+      // Clear form fields
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        checkInDate: '',
+        checkOutDate: '',
+        numberOfGuests: '',
+        roomType: '',
+        specialRequests: ''
+      });
+      
+    } catch (error) {
+      console.error('Error:', error);
+      alert(error.message || 'Failed to book lodge. Please try again.');
+    }
   };
 
   return (

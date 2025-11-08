@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const registrationRoutes = require('./routes/registration');
+const lodgeRoutes = require('./routes/lodge');
 
 const app = express();
 
@@ -23,6 +24,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Routes
 app.use('/api', registrationRoutes);
+app.use('/api/lodge', lodgeRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {
