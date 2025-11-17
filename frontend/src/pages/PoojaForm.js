@@ -12,17 +12,7 @@ function PoojaForm() {
     remarks: ''
   });
 
-  const poojaTypes = [
-    'Shradha',
-    'Paksha',
-    'Pinda Pooja',
-    'Satyanarayan Pooja',
-    'Rudrabhishek',
-    'Lakshmi Pooja',
-    'Navagraha Pooja'
-  ];
-
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -32,140 +22,160 @@ function PoojaForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic client-side validation
+    if (!formData.poojaType || !formData.name || !formData.gotra || !formData.date || !formData.place || !formData.phone) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Format date to ISO string for consistent parsing on the server
+    const formDataToSend = {
+      ...formData,
+      date: new Date(formData.date).toISOString()
+    };
+
     try {
-      const response = await axios.post('http://localhost:5000/api/register', formData);
-      alert('Registration successful!');
-      // Reset form
-      setFormData({
-        poojaType: '',
-        name: '',
-        gotra: '',
-        date: '',
-        place: '',
-        phone: '',
-        remarks: ''
+      console.log('Sending registration data:', formDataToSend);
+      const response = await axios.post('http://localhost:5000/api/register', formDataToSend, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
+      
+      console.log('Response from server:', response.data);
+      
+      if (response.data && response.data.success) {
+        alert('✅ Registration successful!');
+        // Reset form
+        setFormData({
+          poojaType: '',
+          name: '',
+          gotra: '',
+          date: '',
+          place: '',
+          phone: '',
+          remarks: ''
+        });
+      } else {
+        console.error('Unexpected response format:', response.data);
+        throw new Error(response.data?.message || 'Registration failed - unexpected response');
+      }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Registration failed. Please try again.');
+      console.error('Registration error:', error);
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      if (error.response) {
+        // Server responded with error status code
+        errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
+      } else if (error.request) {
+        // No response received
+        errorMessage = 'No response from server. Please check if the backend is running.';
+      } else {
+        // Something else happened
+        errorMessage = `Error: ${error.message}`;
+      }
+      
+      alert(`❌ ${errorMessage}`);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Pooja Registration</h1>
-          <p className="mt-2 text-sm text-gray-600">Fill in the details to register for the pooja</p>
+    <div className="container mx-auto p-4 max-w-2xl">
+      <h1 className="text-2xl font-bold mb-6">Pooja Registration Form</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Pooja Type *</label>
+          <input
+            type="text"
+            name="poojaType"
+            value={formData.poojaType}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
         </div>
-        
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="poojaType" className="block text-sm font-medium text-gray-700">Pooja Type</label>
-            <select
-              id="poojaType"
-              name="poojaType"
-              value={formData.poojaType}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-            >
-              <option value="">Select a pooja type</option>
-              {poojaTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
 
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Full Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Full Name *</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
+        </div>
 
-          <div>
-            <label htmlFor="gotra" className="block text-sm font-medium text-gray-700">Gotra</label>
-            <input
-              type="text"
-              id="gotra"
-              name="gotra"
-              value={formData.gotra}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Gotra *</label>
+          <input
+            type="text"
+            name="gotra"
+            value={formData.gotra}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
+        </div>
 
-          <div>
-            <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Date *</label>
+          <input
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
+        </div>
 
-          <div>
-            <label htmlFor="place" className="block text-sm font-medium text-gray-700">Place</label>
-            <input
-              type="text"
-              id="place"
-              name="place"
-              value={formData.place}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Place *</label>
+          <input
+            type="text"
+            name="place"
+            value={formData.place}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
+        </div>
 
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Phone Number *</label>
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            required
+          />
+        </div>
 
-          <div>
-            <label htmlFor="remarks" className="block text-sm font-medium text-gray-700">Remarks (Optional)</label>
-            <textarea
-              id="remarks"
-              name="remarks"
-              rows="3"
-              value={formData.remarks}
-              onChange={handleChange}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">Remarks</label>
+          <textarea
+            name="remarks"
+            value={formData.remarks}
+            onChange={handleInputChange}
+            rows="3"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          />
+        </div>
 
-          <div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Register
-            </button>
-          </div>
-        </form>
-      </div>
+        <div>
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Submit Registration
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

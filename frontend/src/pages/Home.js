@@ -4,14 +4,14 @@ import ContactBox from '../components/ContactBox';
 
 function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl w-full">
+    <div className="min-h-screen bg-gradient-to-br from-orange-100 to-white">
+      <div className="max-w-4xl w-full mx-auto py-12 px-4">
         {/* Welcome Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-            Welcome to Pooja Services
+          <h1 className="text-5xl md:text-6xl font-bold text-black mb-4 drop-shadow-lg">
+            Bhavani Nivas
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 drop-shadow">
+          <p className="text-xl md:text-2xl text-gray-700 drop-shadow">
             Choose a service to get started
           </p>
         </div>
@@ -25,7 +25,7 @@ function Home() {
                 <div className="text-7xl mb-6 group-hover:scale-110 transition-transform duration-300">
                   🛕
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4 group-hover:text-indigo-600 transition-colors">
+                <h2 className="text-3xl font-bold text-gray-800 mb-4 group-hover:text-orange-600 transition-colors">
                   Pooja Registration
                 </h2>
                 <p className="text-gray-600 text-lg">
